@@ -1,0 +1,20 @@
+.page {
+    background: linear-gradient(to bottom right, #020617, #131620);
+    /* The rest of your styles... */
+  }
+  
+.text-color{
+  color:white;
+}
+
+.text-large{
+  font-size: 3rem;
+}
+
+.text-small{
+  font-size: 2rem;
+}
+
+.manu { 
+  background-color: blue;
+}

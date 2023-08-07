@@ -6,26 +6,36 @@ const CREATE_PRODUCT_MUTATION = `
     productCreate(input: $input) {
       product {
         id
+        images(first: 1) {
+          edges {
+            node {
+              originalSrc
+            }
+          }
+        }
       }
     }
   }
 `;
 
-export default async function importProduct(session, title, price) {
+export default async function importProduct(session, title, price, description, image_url) {
   
   const client = new shopify.api.clients.Graphql({ session });
 
-  //console.log('session:',session);
+  
   
 
   try {
+    console.log('Price:', price);
     await client.query({
       data: {
         query: CREATE_PRODUCT_MUTATION,
         variables: {
           input: {
             title: title,
+            bodyHtml: description,
             variants: [{ price: price }],
+            images: [{src:image_url}]
           },
         },
       },

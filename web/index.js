@@ -102,16 +102,15 @@ app.get("/api/products/create", async (_req, res) => {
 });
 
 
-app.get("/api/products/import", async (_req, res) => {
-  //const {shop} = req.body; 
+app.post("/api/products/import", async (req, res) => {
+  
   let status = 200;
   let error = null;
-  
-  console.log(res.locals.shopify.session)
 
+  const {title, price, description, image_url} = req.body;
 
   try {
-    await importProduct(res.locals.shopify.session, 'manu', '0.99');
+    await importProduct(res.locals.shopify.session, title, price, description, image_url);
   } catch (e) {
     console.log(`Failed to process products/import: ${e.message}`);
     status = 500;

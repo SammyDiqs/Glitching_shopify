@@ -5,32 +5,54 @@ import { useLocation } from "react-router-dom";
 import { Toast } from "@shopify/app-bridge-react";
 import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { useTranslation } from "react-i18next";
-
-
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../firebase.config";
+import { doc, getDoc, onSnapshot} from "firebase/firestore";
 
 import "firebase/firestore";
 
 export default function Glitchingproducts() {
   const location = useLocation();
-  const initialState = location?.state?.savedProducts || JSON.parse(localStorage.getItem('savedProducts')) || [];
-  const {t} = useTranslation();
+  const [currentUser, setCurrentUser] = useState();
+  //const initialState = location?.state?.savedProducts || JSON.parse(localStorage.getItem('savedProducts')) || [];
+  const { t } = useTranslation();
   const emptyToastProps = { content: null };
   const [isLoading, setIsLoading] = useState(true);
   const [loadingStatus, setLoadingStatus] = useState({});
 
   const [toastProps, setToastProps] = useState(emptyToastProps);
   const fetch = useAuthenticatedFetch();
-  const [savedProducts, setSavedProducts] = useState(initialState);
+  const [savedProducts, setSavedProducts] = useState([]);
+
+
+  function getSavedProducts(user) {
+    const ref = doc(db, "users", `${user.uid}`);
+  
+    onSnapshot(ref, (docSnap) => {
+      if (docSnap.exists()) {
+        const savedProducts = docSnap.data().savedProducts;
+        setSavedProducts(savedProducts);  // use setSavedProducts() directly
+      }
+    });
+  }
 
   useEffect(() => {
-    localStorage.setItem('savedProducts', JSON.stringify(savedProducts));
-  }, [savedProducts]);
-
-
-  useEffect(() => {
-    const localStorageProducts = JSON.parse(localStorage.getItem('savedProducts')) || [];
-    setSavedProducts(localStorageProducts);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
+        getSavedProducts(user);  // Call getSavedProducts() directly without await
+        console.log(user);
+      } else {
+        console.log("User is not logged in"); 
+      }
+    });
+  
+    return unsubscribe;
   }, []);
+  
+
+
+
 
 
   const toastMarkup = toastProps.content && (
@@ -39,55 +61,49 @@ export default function Glitchingproducts() {
 
   function trimString(s) {
     if (s.length > 30) {
-        return s.substring(0, 30) + "...";
+      return s.substring(0, 30) + "...";
     } else {
-        return s;
+      return s;
     }
-}
-
-
-
-const handleImport = async (index,title, price, description, image_url) => {
-  //console.log("Importing product with title:", title, "and price:", price);
-  setLoadingStatus(prev => ({ ...prev, [index]: true }));
-
-  setIsLoading(true);
-
-
-  const response = await fetch("/api/products/import", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ title, price, description, image_url}),
-  });
-
-  const responseData = await response.json();
-  console.log(responseData)
-  
-
-  if (response.ok) {
-    setLoadingStatus(prev => ({ ...prev, [index]: false }));
-    setToastProps({
-      content: t("You have imported your product!", {
-      }),
-    });
-    setIsLoading(false);
-  } else {
-    setLoadingStatus(prev => ({ ...prev, [index]: false }));
-    setToastProps({
-      content: t("There was an error importing your product..."),
-      error: true,
-    });
-    setLoadingProductId(null);
   }
-};
 
+  const handleImport = async (index, title, price, description, image_url) => {
+    //console.log("Importing product with title:", title, "and price:", price);
+    setLoadingStatus((prev) => ({ ...prev, [index]: true }));
+
+    setIsLoading(true);
+
+    const response = await fetch("/api/products/import", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title, price, description, image_url }),
+    });
+
+    const responseData = await response.json();
+    console.log(responseData);
+
+    if (response.ok) {
+      setLoadingStatus((prev) => ({ ...prev, [index]: false }));
+      setToastProps({
+        content: t("You have imported your product!", {}),
+      });
+      setIsLoading(false);
+    } else {
+      setLoadingStatus((prev) => ({ ...prev, [index]: false }));
+      setToastProps({
+        content: t("There was an error importing your product..."),
+        error: true,
+      });
+      setLoadingProductId(null);
+    }
+  };
 
   return (
     <div className="w-full min-h-screen  bg-slate-950 flex flex-col items-center gap-5 lg:gap-5 p-5 lg:p-8 lg:py-10 lg:pb-0 text-slate-400 overflow-auto overflow-x-hidden relative pb-16">
       {toastMarkup}
-      
+
       <div className="flex items-center">
         <img
           src={logo62}
@@ -102,15 +118,17 @@ const handleImport = async (index,title, price, description, image_url) => {
             //console.log("Product data:", product);
             let priceAsString;
 
-            if (product.currencyAmount){
+            if (product.currencyAmount) {
               priceAsString = product.currencyAmount.toString();
-             } else if (product.productPrice){
+            } else if (product.productPrice) {
               priceAsString = product.productPrice;
-             } else {
-              console.error('No valid price fiel found for product')
-             }
+            } else {
+              console.error("No valid price fiel found for product");
+            }
 
-             let imageUrl = product.landingImage || `https://www.glitching.ai/v2-g-images/image${product.index}.jpg`;
+            let imageUrl =
+              product.landingImage ||
+              `https://www.glitching.ai/v2-g-images/image${product.index}.jpg`;
 
             return (
               <div
@@ -134,11 +152,25 @@ const handleImport = async (index,title, price, description, image_url) => {
                 </div>
 
                 <div className="p-3 flex flex-col gap-3">
-              <a className="font-bold h-[2.5rem] overflow-hidden flex items-center justify-center text-center text-[1em] lg:text-[.8rem]">{trimString(product.productName)}</a>
-            </div>
+                  <a className="font-bold h-[2.5rem] overflow-hidden flex items-center justify-center text-center text-[1em] lg:text-[.8rem]">
+                    {trimString(product.productName)}
+                  </a>
+                </div>
 
-                <button className="bg-green-600 border-[1px] border-green-600 font-bold absolute top-2 right-2 text-white text-[.8rem] p-1 rounded-[.4rem]  flex items-center gap-1 justify-center z-20 cursor-pointer" onClick={() => handleImport(index, product.productName, priceAsString, product.productDescription, imageUrl)}  disabled={loadingStatus[index]}>
-                {loadingStatus[index] ? 'Importing...' : 'Import'}
+                <button
+                  className="bg-green-600 border-[1px] border-green-600 font-bold absolute top-2 right-2 text-white text-[.8rem] p-1 rounded-[.4rem]  flex items-center gap-1 justify-center z-20 cursor-pointer"
+                  onClick={() =>
+                    handleImport(
+                      index,
+                      product.productName,
+                      priceAsString,
+                      product.productDescription,
+                      imageUrl
+                    )
+                  }
+                  disabled={loadingStatus[index]}
+                >
+                  {loadingStatus[index] ? "Importing..." : "Import"}
                 </button>
               </div>
             );

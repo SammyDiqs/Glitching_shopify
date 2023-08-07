@@ -36,7 +36,7 @@ export default function App() {
                 },
               ]}
             />
-            <Routes pages={pages} extraProps={{handleUserSignIn}} />
+            <Routes pages={pages} extraProps={{handleUserSignIn, userState}} />
           </QueryProvider>
         </AppBridgeProvider>
       </BrowserRouter>

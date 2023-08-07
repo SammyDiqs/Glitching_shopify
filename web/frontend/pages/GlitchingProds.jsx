@@ -42,7 +42,7 @@ export default function Glitchingproducts() {
       if (user) {
         setCurrentUser(user);
         getSavedProducts(user);  // Call getSavedProducts() directly without await
-        console.log(user);
+        
       } else {
         console.log("User is not logged in"); 
       }

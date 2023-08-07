@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase.config";
 import { doc, getDoc, onSnapshot} from "firebase/firestore";
+import {FaShopify} from "react-icons/fa"
 
 import "firebase/firestore";
 
@@ -133,7 +134,16 @@ export default function Glitchingproducts() {
             return (
               <div
                 key={product.id}
-                className="z-20 overflow-hidden w-full lg:w-[22%] rounded-[.4rem] shadow-xl bg-gradient-to-b from-[#131620] to-transparent border-[1px] border-slate-800 relative fade-p1 flex flex-col items-center transition-transform ease-in 200 lg:hover:border-blue-700 lg:hover:-translate-y-1 "
+                onClick={() =>
+                  handleImport(
+                    index,
+                    product.productName,
+                    priceAsString,
+                    product.productDescription,
+                    imageUrl
+                  )
+                }
+                className="z-20 overflow-hidden w-full lg:w-[22%] rounded-[.4rem] shadow-xl bg-gradient-to-b from-[#131620] to-transparent border-[1px] border-slate-800 relative fade-p1 flex flex-col items-center transition-transform ease-in 200 lg:hover:border-blue-700 lg:hover:-translate-y-1 cursor-pointer"
               >
                 <div className="w-full h-40 relative">
                   {" "}
@@ -158,18 +168,14 @@ export default function Glitchingproducts() {
                 </div>
 
                 <button
-                  className="bg-green-600 border-[1px] border-green-600 font-bold absolute top-2 right-2 text-white text-[.8rem] p-1 rounded-[.4rem]  flex items-center gap-1 justify-center z-20 cursor-pointer"
-                  onClick={() =>
-                    handleImport(
-                      index,
-                      product.productName,
-                      priceAsString,
-                      product.productDescription,
-                      imageUrl
-                    )
-                  }
+               
+                  className="bg-black  font-bold absolute top-2 right-2 text-white text-[.8rem] p-1 rounded-[.4rem]  flex items-center gap-1 justify-center z-20 cursor-pointer"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                  }}
                   disabled={loadingStatus[index]}
                 >
+                   <FaShopify/>
                   {loadingStatus[index] ? "Importing..." : "Import"}
                 </button>
               </div>

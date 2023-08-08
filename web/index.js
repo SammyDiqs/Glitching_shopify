@@ -8,7 +8,7 @@ import shopify from "./shopify.js";
 import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import importProduct from "./product-import.js";
-import authenticate from './auth.js'
+
 
 
 

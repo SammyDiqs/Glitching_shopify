@@ -1,32 +1,21 @@
 import circle from "../assets/blur-circle.svg";
 import logo62 from "../assets/logo6fire.png";
 import { FcGoogle } from "react-icons/fc";
-import LoadingAnimation from '../assets/loading.jsx'
+import LoadingAnimation from "../assets/loading.jsx";
 
-import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase.config";
-import {doc, getDoc} from "firebase/firestore"
+import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 
 import {
   GoogleAuthProvider,
   signInWithEmailAndPassword,
   signInWithPopup,
-  /* 	createUserWithEmailAndPassword,
-	signOut,
-	query,
-	where,
-	collection,
-	onAuthStateChanged,
-	GoogleAuthProvider,
-	signInWithPopup,
-	sendEmailVerification,
-	sendPasswordResetEmail, */
 } from "firebase/auth";
-//import { doc, getDoc } from "firebase/firestore";
 
-export default function HomePage({handleUserSignIn}) {
+export default function HomePage({ handleUserSignIn }) {
   const [email, setEmail] = useState("");
   const [savedProducts, setSavedProducts] = useState([]);
   const [password, setPassword] = useState("");
@@ -35,35 +24,33 @@ export default function HomePage({handleUserSignIn}) {
   const [isLoading, setIsLoading] = useState(false);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
-  
 
   async function getSavedProducts(user) {
-	const ref = await doc(db, "users", `${user.uid}`);
-	const docSnap = await getDoc(ref);
+    const ref = await doc(db, "users", `${user.uid}`);
+    const docSnap = await getDoc(ref);
 
-	if (docSnap.exists()) {
-		const savedProducts = docSnap.data().savedProducts;
-		return savedProducts;
-	} 
-  return [];
-}
-
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      setCurrentUser(user);
-      const savedProducts = await getSavedProducts(user);
-      setSavedProducts(savedProducts);
-      handleUserSignIn(user);
-      navigate("/import", { state: { savedProducts, currentUser } });
-    } else {
-      console.log(error);
+    if (docSnap.exists()) {
+      const savedProducts = docSnap.data().savedProducts;
+      return savedProducts;
     }
-  });
+    return [];
+  }
 
-  return unsubscribe;
-}, []);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setCurrentUser(user);
+        const savedProducts = await getSavedProducts(user);
+        setSavedProducts(savedProducts);
+        handleUserSignIn(user);
+        navigate("/import", { state: { savedProducts, currentUser } });
+      } else {
+        console.log(error);
+      }
+    });
 
+    return unsubscribe;
+  }, []);
 
   function signInGoogle() {
     return signInWithPopup(auth, provider)
@@ -76,7 +63,7 @@ useEffect(() => {
         const user = result.user;
 
         handleUserSignIn(user);
-       
+
         navigate("/import", { state: { savedProducts, currentUser } });
       })
       .catch((error) => {
@@ -93,25 +80,25 @@ useEffect(() => {
   }
 
   async function logIn(email, password) {
-	try {
-	  const credentials = await signInWithEmailAndPassword(auth, email, password);
-	  const user = credentials.user;
+    try {
+      const credentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = credentials.user;
 
-    handleUserSignIn(user);
-  
-	  setCurrentUser(user);
-	  const savedProducts = await getSavedProducts(user);
-	  setSavedProducts(savedProducts);
-  
-	  navigate("/import", { state: { savedProducts, currentUser } });
-	} catch (error) {
-	  console.log('Login failed', error)
-	}
+      handleUserSignIn(user);
+
+      setCurrentUser(user);
+      const savedProducts = await getSavedProducts(user);
+      setSavedProducts(savedProducts);
+
+      navigate("/import", { state: { savedProducts, currentUser } });
+    } catch (error) {
+      console.log("Login failed", error);
+    }
   }
-  
-
-
-
 
   const handleSubmit = async () => {
     try {
@@ -223,11 +210,8 @@ useEffect(() => {
       >
         {" "}
         Continue with email
-		{isLoading ? <LoadingAnimation /> : ""}
+        {isLoading ? <LoadingAnimation /> : ""}
       </button>
     </div>
-
-  
   );
 }
-

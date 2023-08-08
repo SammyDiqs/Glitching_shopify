@@ -7,15 +7,14 @@ import { useAppQuery, useAuthenticatedFetch } from "../hooks";
 import { useTranslation } from "react-i18next";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../firebase.config";
-import { doc, getDoc, onSnapshot} from "firebase/firestore";
-import {FaShopify} from "react-icons/fa"
+import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { FaShopify } from "react-icons/fa";
 
 import "firebase/firestore";
 
 export default function Glitchingproducts() {
   const location = useLocation();
   const [currentUser, setCurrentUser] = useState();
-  //const initialState = location?.state?.savedProducts || JSON.parse(localStorage.getItem('savedProducts')) || [];
   const { t } = useTranslation();
   const emptyToastProps = { content: null };
   const [isLoading, setIsLoading] = useState(true);
@@ -25,14 +24,13 @@ export default function Glitchingproducts() {
   const fetch = useAuthenticatedFetch();
   const [savedProducts, setSavedProducts] = useState([]);
 
-
   function getSavedProducts(user) {
     const ref = doc(db, "users", `${user.uid}`);
-  
+
     onSnapshot(ref, (docSnap) => {
       if (docSnap.exists()) {
         const savedProducts = docSnap.data().savedProducts;
-        setSavedProducts(savedProducts);  // use setSavedProducts() directly
+        setSavedProducts(savedProducts); // use setSavedProducts() directly
       }
     });
   }
@@ -41,20 +39,14 @@ export default function Glitchingproducts() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser(user);
-        getSavedProducts(user);  // Call getSavedProducts() directly without await
-        
+        getSavedProducts(user); // Call getSavedProducts() directly without await
       } else {
-        console.log("User is not logged in"); 
+        console.log("User is not logged in");
       }
     });
-  
+
     return unsubscribe;
   }, []);
-  
-
-
-
-
 
   const toastMarkup = toastProps.content && (
     <Toast {...toastProps} onDismiss={() => setToastProps(emptyToastProps)} />
@@ -168,14 +160,13 @@ export default function Glitchingproducts() {
                 </div>
 
                 <button
-               
                   className="bg-black  font-bold absolute top-2 right-2 text-white text-[.8rem] p-1 rounded-[.4rem]  flex items-center gap-1 justify-center z-20 cursor-pointer"
                   onClick={(e) => {
-                    e.stopPropagation()
+                    e.stopPropagation();
                   }}
                   disabled={loadingStatus[index]}
                 >
-                   <FaShopify/>
+                  <FaShopify />
                   {loadingStatus[index] ? "Importing..." : "Import"}
                 </button>
               </div>

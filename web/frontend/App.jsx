@@ -30,10 +30,7 @@ export default function App() {
           <QueryProvider>
             <NavigationMenu
               navigationLinks={[
-                {
-                  label: t("NavigationMenu.pageName"),
-                  destination: "/pagename",
-                },
+               
               ]}
             />
             <Routes pages={pages} extraProps={{handleUserSignIn, userState}} />

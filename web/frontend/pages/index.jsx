@@ -55,7 +55,7 @@ useEffect(() => {
       const savedProducts = await getSavedProducts(user);
       setSavedProducts(savedProducts);
       handleUserSignIn(user);
-      navigate("/GlitchingProds", { state: { savedProducts, currentUser } });
+      navigate("/import", { state: { savedProducts, currentUser } });
     } else {
       console.log(error);
     }
@@ -77,7 +77,7 @@ useEffect(() => {
 
         handleUserSignIn(user);
        
-        navigate("/GlitchingProds", { state: { savedProducts, currentUser } });
+        navigate("/import", { state: { savedProducts, currentUser } });
       })
       .catch((error) => {
         // Handle Errors here.
@@ -103,7 +103,7 @@ useEffect(() => {
 	  const savedProducts = await getSavedProducts(user);
 	  setSavedProducts(savedProducts);
   
-	  navigate("/GlitchingProds", { state: { savedProducts, currentUser } });
+	  navigate("/import", { state: { savedProducts, currentUser } });
 	} catch (error) {
 	  console.log('Login failed', error)
 	}

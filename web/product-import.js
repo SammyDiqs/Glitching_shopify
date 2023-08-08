@@ -26,7 +26,7 @@ export default async function importProduct(session, title, price, description, 
   
 
   try {
-    console.log('Price:', price);
+    //console.log('Price:', price);
     await client.query({
       data: {
         query: CREATE_PRODUCT_MUTATION,

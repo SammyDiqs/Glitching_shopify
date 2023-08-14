@@ -14,9 +14,8 @@
   "dependencies": {
     "@shopify/app": "3.47.5",
     "@shopify/cli": "3.47.5",
-    "react-icons": "^4.10.1",
-    "autoprefixer": "^10.4.14",
     "postcss": "^8.4.27",
+    "react-icons": "^4.10.1",
     "tailwindcss": "^3.3.3"
   },
   "author": "samuel",
@@ -25,5 +24,8 @@
     "web",
     "web/frontend",
     "extensions/*"
-  ]
+  ],
+  "devDependencies": {
+    "autoprefixer": "^10.4.15"
+  }
 }

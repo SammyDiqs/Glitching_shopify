@@ -10,10 +10,6 @@ import GDPRWebhookHandlers from "./gdpr.js";
 import importProduct from "./product-import.js";
 
 
-
-
-
-
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
   10

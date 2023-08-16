@@ -4,6 +4,8 @@ import { DeliveryMethod } from "@shopify/shopify-api";
  * @type {{[key: string]: import("@shopify/shopify-api").WebhookHandler}}
  */
 export default {
+
+  
   /**
    * Customers can request their data from a store owner. When this happens,
    * Shopify invokes this webhook.
@@ -14,26 +16,30 @@ export default {
     deliveryMethod: DeliveryMethod.Http,
     callbackUrl: "/api/wehooks/customers/data_request",
     callback: async (topic, shop, body, webhookId) => {
+
+
+
+      const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+      const crypto = require('crypto')
+
+
+      // Validate HMAC
+    const hmacHeader = req.header('X-Shopify-Hmac-Sha256');
+
+    // Compute HMAC using your Shopify secret key
+    const computedHmac = crypto
+      .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
+      .update(body, 'utf8')
+      .digest('base64');
+
+    // If HMAC doesn't match, return 401
+    if (computedHmac !== hmacHeader) {
+      return res.status(401).send('Unauthorized');
+    }
+
       const payload = JSON.parse(body);
      
-      // Payload has the following shape:
-      // {
-      //   "shop_id": 954889,
-      //   "shop_domain": "{shop}.myshopify.com",
-      //   "orders_requested": [
-      //     299938,
-      //     280263,
-      //     220458
-      //   ],
-      //   "customer": {
-      //     "id": 191167,
-      //     "email": "john@example.com",
-      //     "phone": "555-625-1199"
-      //   },
-      //   "data_request": {
-      //     "id": 9999
-      //   }
-      // }
+     
     },
   },
 
@@ -47,22 +53,29 @@ export default {
     deliveryMethod: DeliveryMethod.Http,
     callbackUrl: "/api/webhooks/customers/redact",
     callback: async (topic, shop, body, webhookId) => {
+
+
+      const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+      const crypto = require('crypto')
+
+
+      // Validate HMAC
+    const hmacHeader = req.header('X-Shopify-Hmac-Sha256');
+
+    // Compute HMAC using your Shopify secret key
+    const computedHmac = crypto
+      .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
+      .update(body, 'utf8')
+      .digest('base64');
+
+    // If HMAC doesn't match, return 401
+    if (computedHmac !== hmacHeader) {
+      return res.status(401).send('Unauthorized');
+    }
+
       const payload = JSON.parse(body);
-      // Payload has the following shape:
-      // {
-      //   "shop_id": 954889,
-      //   "shop_domain": "{shop}.myshopify.com",
-      //   "customer": {
-      //     "id": 191167,
-      //     "email": "john@example.com",
-      //     "phone": "555-625-1199"
-      //   },
-      //   "orders_to_redact": [
-      //     299938,
-      //     280263,
-      //     220458
-      //   ]
-      // }
+      
+     
     },
   },
 
@@ -75,13 +88,28 @@ export default {
   SHOP_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
     callbackUrl: "/api/webhooks/shop/redact",
-    callback: async (topic, shop, body, webhookId) => {
+    callback: async (topic, shop, body, webhookId, req, res) => {
+
+      const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+      const crypto = require('crypto')
+
+
+      // Validate HMAC
+    const hmacHeader = req.header('X-Shopify-Hmac-Sha256');
+
+    // Compute HMAC using your Shopify secret key
+    const computedHmac = crypto
+      .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
+      .update(body, 'utf8')
+      .digest('base64');
+
+    // If HMAC doesn't match, return 401
+    if (computedHmac !== hmacHeader) {
+      return res.status(401).send('Unauthorized');
+    }
+
       const payload = JSON.parse(body);
-      // Payload has the following shape:
-      // {
-      //   "shop_id": 954889,
-      //   "shop_domain": "{shop}.myshopify.com"
-      // }
+      
     },
   },
 };

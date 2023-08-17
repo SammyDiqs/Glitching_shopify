@@ -62,6 +62,7 @@ export default defineConfig({
       "^/api(/|(\\?.*)?$)": proxyOptions,
       "^/test(/|(\\?.*)?$)": proxyOptions,
       "^/session(/|(\\?.*)?$)": proxyOptions,
+      "^/webhooks(/|(\\?.*)?$)": proxyOptions,
       
 
     },

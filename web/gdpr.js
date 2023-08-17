@@ -14,8 +14,8 @@ export default {
    */
   CUSTOMERS_DATA_REQUEST: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/api/wehooks/customers/data_request",
-    callback: async (topic, shop, body, webhookId) => {
+    callbackUrl: "/wehooks/customers/data_request",
+    callback: async (topic, shop, body, webhookId, req, res) => {
 
 
 
@@ -37,7 +37,14 @@ export default {
       return res.status(401).send('Unauthorized');
     }
 
+    try {
       const payload = JSON.parse(body);
+      // Process the payload as needed
+
+      res.status(200).send('Webhook processed successfully');
+  } catch (err) {
+      res.status(400).send('Bad Request');
+  }
      
      
     },
@@ -51,8 +58,8 @@ export default {
    */
   CUSTOMERS_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/api/webhooks/customers/redact",
-    callback: async (topic, shop, body, webhookId) => {
+    callbackUrl: "/webhooks/customers/redact",
+    callback: async (topic, shop, body, webhookId, req, res) => {
 
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
@@ -73,7 +80,14 @@ export default {
       return res.status(401).send('Unauthorized');
     }
 
+    try {
       const payload = JSON.parse(body);
+      // Process the payload as needed
+
+      res.status(200).send('Webhook processed successfully');
+  } catch (err) {
+      res.status(400).send('Bad Request');
+  }
       
       
      
@@ -88,7 +102,7 @@ export default {
    */
   SHOP_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/api/webhooks/shop/redact",
+    callbackUrl: "/webhooks/shop/redact",
     callback: async (topic, shop, body, webhookId, req, res) => {
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
@@ -109,8 +123,15 @@ export default {
       return res.status(401).send('Unauthorized');
     }
 
+    try {
       const payload = JSON.parse(body);
-      console.log("Payload: ", payload)
+      console.log('Payload: ', payload)
+      // Process the payload as needed
+
+      res.status(200).send('Webhook processed successfully');
+  } catch (err) {
+      res.status(400).send('Bad Request');
+  }
       
     },
   },

@@ -1,11 +1,11 @@
 import { DeliveryMethod } from "@shopify/shopify-api";
+const crypto = require('crypto');
 
 /**
  * @type {{[key: string]: import("@shopify/shopify-api").WebhookHandler}}
  * 
  */
 
-const crypto = require('crypto');
 
 export default {
 

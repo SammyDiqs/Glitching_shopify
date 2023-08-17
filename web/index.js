@@ -49,7 +49,7 @@ app.post(
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
 app.use((req, res, next) => {
-  console.log("Incoming request:", req.path);
+  console.log("Incoming request:",req.method, req.path);
   next();
 });
 
@@ -126,6 +126,9 @@ app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
 app.use("/*", (req, res, next) => {
+  console.log("Processing request for:", req.path); // This will log for every request
+
+
   if (req.path.startsWith("/webhooks")) {
     console.log("Bypassing shopify.ensureInstalledOnShop() for", req.path);
 

@@ -19,7 +19,7 @@ export default {
    */
   CUSTOMERS_DATA_REQUEST: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/wehooks/customers/data_request",
+    callbackUrl: "/webhooks/customers/data_request",
     callback: async (topic, shop, body, webhookId, req, res) => {
 
 

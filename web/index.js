@@ -48,6 +48,11 @@ app.post(
 
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
+app.use((req, res, next) => {
+  console.log("Incoming request:", req.path);
+  next();
+});
+
 app.use(express.json());
 
 // Shopify app server

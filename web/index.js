@@ -40,7 +40,7 @@ app.get(
 
 
 app.post(
-  shopify.config.webhooks.path,
+  shopify.config.webhooks.path + '/customers' + '/shop',
   shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
 ); 
 
@@ -137,9 +137,9 @@ app.use( (req, res, next) => {
   return shopify.ensureInstalledOnShop()(req, res, next);
 }, async (_req, res, _next) => {
   return res
-      .status(200)
-      .set("Content-Type", "text/html")
-      .send(readFileSync(join(STATIC_PATH, "index.html")));
+    .status(200)
+    .set("Content-Type", "text/html")
+    .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 
 app.listen(PORT);

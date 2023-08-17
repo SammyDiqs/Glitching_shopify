@@ -120,11 +120,16 @@ app.post("/api/products/import", async (req, res) => {
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
-app.use("/*", shopify.ensureInstalledOnShop(), async (_req, res, _next) => {
+app.use("/*", (req, res, next) => {
+  if (req.path.startsWith("/webhooks")) {
+      return next();
+  }
+  return shopify.ensureInstalledOnShop()(req, res, next);
+}, async (_req, res, _next) => {
   return res
-    .status(200)
-    .set("Content-Type", "text/html")
-    .send(readFileSync(join(STATIC_PATH, "index.html")));
+      .status(200)
+      .set("Content-Type", "text/html")
+      .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
 
 app.listen(PORT);

@@ -122,6 +122,8 @@ app.use(serveStatic(STATIC_PATH, { index: false }));
 
 app.use("/*", (req, res, next) => {
   if (req.path.startsWith("/webhooks")) {
+    console.log("Bypassing shopify.ensureInstalledOnShop() for", req.path);
+
       return next();
   }
   return shopify.ensureInstalledOnShop()(req, res, next);

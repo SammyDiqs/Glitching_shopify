@@ -22,6 +22,10 @@ const STATIC_PATH =
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log("Incoming request:",req.method, req.path);
+  next();
+});
 
 // Set up Shopify authentication and webhook handling
 
@@ -48,10 +52,6 @@ app.post(
 
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
-app.use((req, res, next) => {
-  console.log("Incoming request:",req.method, req.path);
-  next();
-});
 
 app.use(express.json());
 
@@ -125,7 +125,7 @@ app.post("/api/products/import", async (req, res) => {
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
-app.use("/*", (req, res, next) => {
+app.use( (req, res, next) => {
   console.log("Processing request for:", req.path); // This will log for every request
 
 

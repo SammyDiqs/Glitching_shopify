@@ -1,5 +1,5 @@
 import { DeliveryMethod } from "@shopify/shopify-api";
-const crypto = require('crypto');
+
 
 /**
  * @type {{[key: string]: import("@shopify/shopify-api").WebhookHandler}}
@@ -25,6 +25,7 @@ export default {
 
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+      const crypto = require('crypto');
 
       const contentType = req.header('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
@@ -74,6 +75,7 @@ export default {
 
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+      const crypto = require('crypto');
 
       const contentType = req.header('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
@@ -123,6 +125,7 @@ export default {
     callback: async (topic, shop, body, webhookId, req, res) => {
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+      const crypto = require('crypto');
       
       const contentType = req.header('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {

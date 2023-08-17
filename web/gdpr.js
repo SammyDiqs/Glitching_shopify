@@ -2,8 +2,13 @@ import { DeliveryMethod } from "@shopify/shopify-api";
 
 /**
  * @type {{[key: string]: import("@shopify/shopify-api").WebhookHandler}}
+ * 
  */
+
+const crypto = require('crypto');
+
 export default {
+
 
   
   /**
@@ -20,7 +25,12 @@ export default {
 
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
-      const crypto = require('crypto')
+
+      const contentType = req.header('Content-Type');
+      if (!contentType || !contentType.includes('application/json')) {
+          return res.status(400).send('Bad Request: Expected application/json content type');
+      }
+      
 
 
       // Validate HMAC
@@ -43,6 +53,7 @@ export default {
 
       res.status(200).send('Webhook processed successfully');
   } catch (err) {
+      console.error('Error processing webhook:', err);
       res.status(400).send('Bad Request');
   }
      
@@ -63,7 +74,12 @@ export default {
 
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
-      const crypto = require('crypto')
+
+      const contentType = req.header('Content-Type');
+      if (!contentType || !contentType.includes('application/json')) {
+          return res.status(400).send('Bad Request: Expected application/json content type');
+      }
+      
 
 
       // Validate HMAC
@@ -86,6 +102,7 @@ export default {
 
       res.status(200).send('Webhook processed successfully');
   } catch (err) {
+      console.error('Error processing webhook:', err);
       res.status(400).send('Bad Request');
   }
       
@@ -106,7 +123,11 @@ export default {
     callback: async (topic, shop, body, webhookId, req, res) => {
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
-      const crypto = require('crypto')
+      
+      const contentType = req.header('Content-Type');
+      if (!contentType || !contentType.includes('application/json')) {
+          return res.status(400).send('Bad Request: Expected application/json content type');
+      }
 
 
       // Validate HMAC
@@ -130,6 +151,7 @@ export default {
 
       res.status(200).send('Webhook processed successfully');
   } catch (err) {
+      console.error('Error processing webhook:', err);
       res.status(400).send('Bad Request');
   }
       

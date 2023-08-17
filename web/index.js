@@ -40,7 +40,7 @@ app.get(
 
 
 app.post(
-  shopify.config.webhooks.path + '/customers' + '/shop',
+  shopify.config.webhooks.path,
   shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
 ); 
 
@@ -125,17 +125,9 @@ app.post("/api/products/import", async (req, res) => {
 app.use(shopify.cspHeaders());
 app.use(serveStatic(STATIC_PATH, { index: false }));
 
-app.use( (req, res, next) => {
-  console.log("Processing request for:", req.path); // This will log for every request
 
-
-  if (req.path.startsWith("/webhooks")) {
-    console.log("Bypassing shopify.ensureInstalledOnShop() for", req.path);
-
-      return next();
-  }
-  return shopify.ensureInstalledOnShop()(req, res, next);
-}, async (_req, res, _next) => {
+app.use("/*", shopify.ensureInstalledOnShop(), async (req, res, _next) => {
+  console.log("Processing request for:", req.path);
   return res
     .status(200)
     .set("Content-Type", "text/html")

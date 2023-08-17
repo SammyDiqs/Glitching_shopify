@@ -14,7 +14,7 @@ export default {
    */
   CUSTOMERS_DATA_REQUEST: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/wehooks/customers/data_request",
+    callbackUrl: "/api/wehooks/customers/data_request",
     callback: async (topic, shop, body, webhookId) => {
 
 
@@ -51,7 +51,7 @@ export default {
    */
   CUSTOMERS_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/webhooks/customers/redact",
+    callbackUrl: "/api/webhooks/customers/redact",
     callback: async (topic, shop, body, webhookId) => {
 
 
@@ -88,7 +88,7 @@ export default {
    */
   SHOP_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
-    callbackUrl: "/webhooks/shop/redact",
+    callbackUrl: "/api/webhooks/shop/redact",
     callback: async (topic, shop, body, webhookId, req, res) => {
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;

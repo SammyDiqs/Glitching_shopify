@@ -103,29 +103,26 @@ export default function Glitchingproducts() {
           width={400}
           alt="Unleash Your Shopify Potential - Uncover Hidden Gems with Glitching Dropshipping Product Finder"
         />
+
+        <div className="fixed top-4 right-4">
+          <a
+            href="https://www.yourwebsite.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Import Products
+            </button>
+          </a>
+        </div>
       </div>
 
       <div className="fade w-full flex flex-col items-start border-[1px] border-slate-800 rounded-[.6rem] px-5 py-5 z-20 bg-gradient-to-br from-[#131620] via-slate-950 to-slate-950 lg:px-8 lg:py-8 mb-8">
-        {savedProducts && savedProducts.length === 0 ? (
-          <div className="text-center mt-4">
-            <a
-              href="https://www.yourwebsite.com" // replace with your website URL
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Visit Our Website to Import Products
-              </button>
-            </a>
-          </div>
-        ) : (
-         
-          
-          <div className="w-full flex flex-row flex-wrap  gap-8">
+        <div className="w-full flex flex-row flex-wrap  gap-8">
           {savedProducts.map((product, index) => {
             //console.log("Product data:", product);
             let priceAsString;
-            
+
             if (product.currencyAmount) {
               priceAsString = product.currencyAmount.toString();
             } else if (product.productPrice) {
@@ -133,25 +130,25 @@ export default function Glitchingproducts() {
             } else {
               console.error("No valid price fiel found for product");
             }
-            
+
             let imageUrl =
-            product.landingImage ||
-            `https://www.glitching.ai/v2-g-images/image${product.index}.jpg`;
-            
+              product.landingImage ||
+              `https://www.glitching.ai/v2-g-images/image${product.index}.jpg`;
+
             return (
               <div
-              key={product.id}
-              onClick={() =>
-                handleImport(
-                  index,
-                  product.productName,
-                  priceAsString,
-                  product.productDescription,
-                  imageUrl
+                key={product.id}
+                onClick={() =>
+                  handleImport(
+                    index,
+                    product.productName,
+                    priceAsString,
+                    product.productDescription,
+                    imageUrl
                   )
                 }
                 className="z-20 overflow-hidden w-full lg:w-[22%] rounded-[.4rem] shadow-xl bg-gradient-to-b from-[#131620] to-transparent border-[1px] border-slate-800 relative fade-p1 flex flex-col items-center transition-transform ease-in 200 lg:hover:border-blue-700 lg:hover:-translate-y-1 cursor-pointer"
-                >
+              >
                 <div className="w-full h-40 relative">
                   {" "}
                   {/* <-- This is your image container with a fixed height */}
@@ -165,7 +162,7 @@ export default function Glitchingproducts() {
                       `https://www.glitching.ai/v2-g-images/image${product.index}.jpg`
                     }
                     alt="placeholder"
-                    />
+                  />
                 </div>
 
                 <div className="p-3 flex flex-col gap-3">
@@ -180,7 +177,7 @@ export default function Glitchingproducts() {
                     e.stopPropagation();
                   }}
                   disabled={loadingStatus[index]}
-                  >
+                >
                   <FaShopify />
                   {loadingStatus[index] ? "Importing..." : "Import"}
                 </button>
@@ -188,7 +185,6 @@ export default function Glitchingproducts() {
             );
           })}
         </div>
-          )}
       </div>
     </div>
   );

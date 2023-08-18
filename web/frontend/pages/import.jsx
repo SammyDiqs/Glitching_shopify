@@ -104,13 +104,13 @@ export default function Glitchingproducts() {
           alt="Unleash Your Shopify Potential - Uncover Hidden Gems with Glitching Dropshipping Product Finder"
         />
 
-        <div className="fixed top-4 right-4">
+        <div className="fixed top-8 right-8">
           <a
             href="https://www.yourwebsite.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold pt-8 pl-8 rounded">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Import Products
             </button>
           </a>

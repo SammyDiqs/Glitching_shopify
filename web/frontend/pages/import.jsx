@@ -110,7 +110,7 @@ export default function Glitchingproducts() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold pt-8 pl-8 rounded">
               Import Products
             </button>
           </a>

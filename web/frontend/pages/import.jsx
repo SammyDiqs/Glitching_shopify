@@ -106,7 +106,7 @@ export default function Glitchingproducts() {
       </div>
 
       <div className="fade w-full flex flex-col items-start border-[1px] border-slate-800 rounded-[.6rem] px-5 py-5 z-20 bg-gradient-to-br from-[#131620] via-slate-950 to-slate-950 lg:px-8 lg:py-8 mb-8">
-        {savedProducts.length === 0 ? (
+        {savedProducts && savedProducts.length === 0 ? (
           <div className="text-center mt-4">
             <a
               href="https://www.yourwebsite.com" // replace with your website URL
@@ -114,7 +114,7 @@ export default function Glitchingproducts() {
               rel="noopener noreferrer"
             >
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Visit Our Website
+                Visit Our Website to Import Products
               </button>
             </a>
           </div>

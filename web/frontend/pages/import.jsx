@@ -97,7 +97,8 @@ export default function Glitchingproducts() {
     <div className="w-full min-h-screen  bg-slate-950 flex flex-col items-center gap-5 lg:gap-5 p-5 lg:p-8 lg:py-10 lg:pb-0 text-slate-400 overflow-auto overflow-x-hidden relative pb-16">
       {toastMarkup}
 
-      <div className="flex items-center">
+      <div className="flex items-center space-x-8"> 
+      {/* fix this */}
         <img
           src={logo62}
           width={400}
@@ -106,6 +107,7 @@ export default function Glitchingproducts() {
 
         <div className="relative">
           <a
+            // needs to be sing-in
             href="https://www.glitching.ai/auth/sign-up"
             target="_blank"
             rel="noopener noreferrer"

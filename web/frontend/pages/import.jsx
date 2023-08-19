@@ -106,16 +106,17 @@ export default function Glitchingproducts() {
         />
 
         <div className="relative">
-          <a
-            // needs to be sing-in
-            href="https://www.glitching.ai/auth/sign-in"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          
+            <button
+            onClick={()=>{
+              const url = "https://www.glitching.ai/"
+              const win = window.open(url,"Glitching AI")
+              win.focus();
+            }
+            } className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
               Generate Products
             </button>
-          </a>
+    
         </div>
       </div>
 

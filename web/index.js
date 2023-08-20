@@ -23,7 +23,7 @@ const STATIC_PATH =
 const app = express();
 
 app.use((req, res, next) => {
-  console.log("Incoming request:",req.method, req.path);
+  console.log("Incoming request:",req.method, req.path, req.headers, req.body);
   next();
 });
 

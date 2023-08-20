@@ -38,6 +38,7 @@ app.get(
   shopify.redirectToShopifyOrAppRoot()
 );   
 
+app.use(express.json());
 
 app.post(
   shopify.config.webhooks.path,
@@ -53,7 +54,6 @@ app.post(
 app.use("/api/*", shopify.validateAuthenticatedSession());
 
 
-app.use(express.json());
 
 // Shopify app server
 app.get('/session', async (req, res) => {
@@ -133,5 +133,15 @@ app.use("/*", shopify.ensureInstalledOnShop(), async (req, res, _next) => {
     .set("Content-Type", "text/html")
     .send(readFileSync(join(STATIC_PATH, "index.html")));
 });
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+
+app.use('*', (req, res) => {
+  res.status(404).send('Not Found');
+});
+
 
 app.listen(PORT);

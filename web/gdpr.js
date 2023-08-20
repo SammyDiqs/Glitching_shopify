@@ -28,7 +28,7 @@ export default {
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
 
-      const contentType = req.header('Content-Type');
+      const contentType = req.get('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
           return res.status(400).send('Bad Request: Expected application/json content type');
       }
@@ -36,7 +36,7 @@ export default {
 
 
       // Validate HMAC
-    const hmacHeader = req.header('X-Shopify-Hmac-Sha256');
+    const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
@@ -78,7 +78,7 @@ export default {
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
 
-      const contentType = req.header('Content-Type');
+      const contentType = req.get('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
           return res.status(400).send('Bad Request: Expected application/json content type');
       }
@@ -86,7 +86,7 @@ export default {
 
 
       // Validate HMAC
-    const hmacHeader = req.header('X-Shopify-Hmac-Sha256');
+    const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
@@ -128,14 +128,14 @@ export default {
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
       
-      const contentType = req.header('Content-Type');
+      const contentType = req.get('Content-Type');
       if (!contentType || !contentType.includes('application/json')) {
           return res.status(400).send('Bad Request: Expected application/json content type');
       }
 
 
       // Validate HMAC
-    const hmacHeader = req.header('X-Shopify-Hmac-Sha256');
+    const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto

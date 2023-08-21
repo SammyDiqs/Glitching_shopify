@@ -21,6 +21,7 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
+app.use(express.json());
 
 app.use((req, res, next) => {
   console.log("Incoming request:",req.method, req.path, req.headers, req.body);
@@ -38,7 +39,6 @@ app.get(
   shopify.redirectToShopifyOrAppRoot()
 );   
 
-app.use(express.json());
 
 app.post(
   shopify.config.webhooks.path,

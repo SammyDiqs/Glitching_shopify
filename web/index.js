@@ -21,7 +21,6 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
-app.use(express.json());
 
 app.use((req, res, next) => {
   console.log("Incoming request:",req.method, req.path, req.headers, req.body);
@@ -37,15 +36,16 @@ app.get(
   shopify.config.auth.callbackPath,
   shopify.auth.callback(),
   shopify.redirectToShopifyOrAppRoot()
-);   
-
-
+  );   
+  
+  
 app.post(
-  shopify.config.webhooks.path,
-  shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
-); 
-
-
+    shopify.config.webhooks.path,
+    shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
+    ); 
+    
+    
+app.use(express.json());
 
 
 // If you are adding routes outside of the /api path, remember to

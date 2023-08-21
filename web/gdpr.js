@@ -37,11 +37,12 @@ export default {
 
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
+    const rawBody = JSON.stringify(req.body);
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(body, 'utf8')
+      .update(rawBody, 'utf8')
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -51,6 +52,7 @@ export default {
 
     try {
       const payload = JSON.parse(body);
+      console.log('Payload: ', payload)
       // Process the payload as needed
 
       res.status(200).send('Webhook processed successfully');
@@ -87,11 +89,12 @@ export default {
 
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
+    const rawBody = JSON.stringify(req.body)
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(body, 'utf8')
+      .update(rawBody, 'utf8')
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -100,7 +103,8 @@ export default {
     }
 
     try {
-      const payload = JSON.parse(body);
+      const payload = req.body;
+      console.log('Payload: ', payload)
       // Process the payload as needed
 
       res.status(200).send('Webhook processed successfully');
@@ -137,10 +141,12 @@ export default {
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
 
+    const rawBody = JSON.stringify(req.body)
+
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(body, 'utf8')
+      .update(rawBody, 'utf8')
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -149,7 +155,7 @@ export default {
     }
 
     try {
-      const payload = JSON.parse(body);
+      const payload = req.body;
       console.log('Payload: ', payload)
       // Process the payload as needed
 

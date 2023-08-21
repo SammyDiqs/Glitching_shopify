@@ -21,6 +21,7 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
+app.use(express.json());
 
 app.use((req, res, next) => {
   console.log("Incoming request:",req.method, req.path, req.headers, req.body);
@@ -45,7 +46,6 @@ app.post(
     ); 
     
     
-app.use(express.json());
 
 
 // If you are adding routes outside of the /api path, remember to

@@ -128,10 +128,14 @@ export default {
   SHOP_REDACT: {
     deliveryMethod: DeliveryMethod.Http,
     callbackUrl: "/api/webhooks",
-    callback: async (topic, shop, body, webhookId, req, res) => {
+    callback: (...args) => {
+      console.log(args);
+      const [topic, shop, body, webhookId, req, res] = args;
+    
 
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
+      
       
       const contentType = req.headers['content-type'];
       if (!contentType || !contentType.includes('application/json')) {

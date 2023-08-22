@@ -28,7 +28,7 @@ export default {
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
 
-      const contentType = req.get('Content-Type');
+      const contentType = req.headers['content-type'];
       if (!contentType || !contentType.includes('application/json')) {
           return res.status(400).send('Bad Request: Expected application/json content type');
       }
@@ -36,12 +36,12 @@ export default {
 
 
       // Validate HMAC
-    const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
+      const hmacHeader = req.headers['x-shopify-hmac-sha256'];
     
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(body, 'utf8')
+      .update(body)
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -79,7 +79,7 @@ export default {
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
 
-      const contentType = req.get('Content-Type');
+      const contentType = req.headers['content-type'];
       if (!contentType || !contentType.includes('application/json')) {
           return res.status(400).send('Bad Request: Expected application/json content type');
       }
@@ -87,13 +87,13 @@ export default {
 
 
       // Validate HMAC
-    const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
+      const hmacHeader = req.headers['x-shopify-hmac-sha256'];
     
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(body, 'utf8')
+      .update(body)
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -131,14 +131,14 @@ export default {
       const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
       //const crypto = require('crypto');
       
-      const contentType = req.get('Content-Type');
+      const contentType = req.headers['content-type'];
       if (!contentType || !contentType.includes('application/json')) {
           return res.status(400).send('Bad Request: Expected application/json content type');
       }
 
 
       // Validate HMAC
-    const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
+    const hmacHeader = req.headers['x-shopify-hmac-sha256'];
 
     
 

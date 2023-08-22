@@ -9,6 +9,8 @@ import productCreator from "./product-creator.js";
 import GDPRWebhookHandlers from "./gdpr.js";
 import importProduct from "./product-import.js";
 
+import crypto from 'crypto'
+
 
 const PORT = parseInt(
   process.env.BACKEND_PORT || process.env.PORT || "3000",
@@ -37,6 +39,32 @@ app.get(
   shopify.auth.callback(),
   shopify.redirectToShopifyOrAppRoot()
   );   
+
+
+  app.use('/api/webhooks', (req, res, next) => {
+    // Your HMAC validation logic here...
+  
+    const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+
+    if (!SHOPIFY_API_SECRET) {
+      throw new Error("SHOPIFY_API_SECRET is not defined in the environment variables.");
+  }
+  
+    const hmacHeader = req.headers['x-shopify-hmac-sha256'];
+    const body = req.body;
+    
+    const computedHmac = crypto
+        .createHmac('sha256', SHOPIFY_API_SECRET)
+        .update(body)
+        .digest('base64');
+
+    if (computedHmac !== hmacHeader) {
+        return res.status(401).send('Unauthorized');
+    }
+  
+    // If validation passes, call next() to proceed to the actual webhook handling
+    next();
+});
   
   
   app.post(

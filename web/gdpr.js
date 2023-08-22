@@ -145,7 +145,7 @@ export default {
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(body, 'utf8')
+      .update(body)
       .digest('base64');
 
     // If HMAC doesn't match, return 401

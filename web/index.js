@@ -21,7 +21,6 @@ const STATIC_PATH =
     : `${process.cwd()}/frontend/`;
 
 const app = express();
-app.use(express.json());
 
 app.use((req, res, next) => {
   console.log("Incoming request:",req.method, req.path, req.headers, req.body);
@@ -40,20 +39,17 @@ app.get(
   );   
   
   
-app.post(
-    shopify.config.webhooks.path,
-    shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
+  app.post(
+    shopify.config.webhooks.path, express.text({ type: '*/*' }), shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
     ); 
     
     
-
-
-// If you are adding routes outside of the /api path, remember to
-// also add a proxy rule for them in web/frontend/vite.config.js
-
-app.use("/api/*", shopify.validateAuthenticatedSession());
-
-
+    // If you are adding routes outside of the /api path, remember to
+    // also add a proxy rule for them in web/frontend/vite.config.js
+    
+    app.use("/api/*", shopify.validateAuthenticatedSession());
+    
+    app.use(express.json());
 
 // Shopify app server
 app.get('/session', async (req, res) => {

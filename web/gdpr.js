@@ -37,12 +37,11 @@ export default {
 
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
-    const rawBody = JSON.stringify(req.body);
-
+    
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(rawBody, 'utf8')
+      .update(body, 'utf8')
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -89,12 +88,12 @@ export default {
 
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
-    const rawBody = JSON.stringify(body)
+    
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(rawBody, 'utf8')
+      .update(body, 'utf8')
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -103,7 +102,7 @@ export default {
     }
 
     try {
-      const payload = body;
+      const payload = JSON.parse(body)
       console.log('Payload: ', payload)
       // Process the payload as needed
 
@@ -141,12 +140,12 @@ export default {
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
 
-    const rawBody = JSON.stringify(req.body)
+    
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
       .createHmac('sha256', SHOPIFY_API_SECRET)  // Replace with your actual Shopify secret key
-      .update(rawBody, 'utf8')
+      .update(body, 'utf8')
       .digest('base64');
 
     // If HMAC doesn't match, return 401
@@ -155,7 +154,7 @@ export default {
     }
 
     try {
-      const payload = req.body;
+      const payload = JSON.parse(body)
       console.log('Payload: ', payload)
       // Process the payload as needed
 

@@ -89,7 +89,7 @@ export default {
 
       // Validate HMAC
     const hmacHeader = req.get('X-Shopify-Hmac-Sha256');
-    const rawBody = JSON.stringify(req.body)
+    const rawBody = JSON.stringify(body)
 
     // Compute HMAC using your Shopify secret key
     const computedHmac = crypto
@@ -103,7 +103,7 @@ export default {
     }
 
     try {
-      const payload = req.body;
+      const payload = body;
       console.log('Payload: ', payload)
       // Process the payload as needed
 

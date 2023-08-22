@@ -50,7 +50,8 @@ export default {
     }
 
     try {
-      const payload = JSON.parse(body);
+      const payloadStr = body.toString('utf8')
+      const payload = JSON.parse(payloadStr)
       console.log('Payload: ', payload)
       // Process the payload as needed
 
@@ -102,7 +103,8 @@ export default {
     }
 
     try {
-      const payload = JSON.parse(body)
+      const payloadStr = body.toString('utf8')
+      const payload = JSON.parse(payloadStr)
       console.log('Payload: ', payload)
       // Process the payload as needed
 
@@ -154,7 +156,8 @@ export default {
     }
 
     try {
-      const payload = JSON.parse(body)
+      const payloadStr = body.toString('utf8')
+      const payload = JSON.parse(payloadStr)
       console.log('Payload: ', payload)
       // Process the payload as needed
 

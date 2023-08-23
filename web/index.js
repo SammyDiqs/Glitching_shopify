@@ -21,15 +21,14 @@ const STATIC_PATH =
   process.env.NODE_ENV === "production"
     ? `${process.cwd()}/frontend/dist`
     : `${process.cwd()}/frontend/`;
-    
-    const app = express();
-    app.use(express.json());
-    
-    app.use((req, res, next) => {
-      console.log("Incoming request:",req.method, req.path, req.headers, req.body);
-      next();
-    });
-    
+
+const app = express();
+
+app.use((req, res, next) => {
+  console.log("Incoming request:",req.method, req.path, req.headers, req.body);
+  next();
+});
+
 // Set up Shopify authentication and webhook handling
 
 app.get(shopify.config.auth.path, shopify.auth.begin());
@@ -67,6 +66,7 @@ app.get(
     next();
 });
   
+app.use(express.json());
   
   app.post(
     shopify.config.webhooks.path, express.raw({ type: '*/*' }), shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })

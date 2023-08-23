@@ -29,6 +29,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // Set up Shopify authentication and webhook handling
 
 app.get(shopify.config.auth.path, shopify.auth.begin());
@@ -39,39 +40,44 @@ app.get(
   shopify.auth.callback(),
   shopify.redirectToShopifyOrAppRoot()
   );   
-
-
+  
+  app.use('/api/webhooks', express.raw({ type: '*/*' }));
+  
   app.use('/api/webhooks', (req, res, next) => {
     // Your HMAC validation logic here...
-  
+    
     const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
 
     if (!SHOPIFY_API_SECRET) {
-      throw new Error("SHOPIFY_API_SECRET is not defined in the environment variables.");
-  }
-  
+      return res.status(500).send("SHOPIFY_API_SECRET is not defined in the environment variables.");
+    }
+    
     const hmacHeader = req.headers['x-shopify-hmac-sha256'];
-    const body = req.body;
+
+    if (!req.body || !hmacHeader) {
+      return res.status(400).send("Invalid request");
+    }
+   
     
     const computedHmac = crypto
-        .createHmac('sha256', SHOPIFY_API_SECRET)
-        .update(body)
-        .digest('base64');
-
+    .createHmac('sha256', SHOPIFY_API_SECRET)
+    .update(req.body)
+    .digest('base64');
+    
     if (computedHmac !== hmacHeader) {
-        return res.status(401).send('Unauthorized');
+      return res.status(401).send('Unauthorized');
     }
-  
+    
     // If validation passes, call next() to proceed to the actual webhook handling
     next();
-});
+  });
   
-app.use(express.json());
   
   app.post(
-    shopify.config.webhooks.path, express.raw({ type: '*/*' }), shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
+    shopify.config.webhooks.path, shopify.processWebhooks({ webhookHandlers: GDPRWebhookHandlers })
     ); 
     
+    app.use(express.json());
     
     // If you are adding routes outside of the /api path, remember to
     // also add a proxy rule for them in web/frontend/vite.config.js

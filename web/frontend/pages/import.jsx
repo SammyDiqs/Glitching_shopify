@@ -60,7 +60,7 @@ export default function Glitchingproducts() {
     }
   }
 
-  const handleImport = async (index, title, price, description, image_url) => {
+  const handleImport = async (index, title, price, cost,  description, image_url) => {
     //console.log("Importing product with title:", title, "and price:", price);
     setLoadingStatus((prev) => ({ ...prev, [index]: true }));
 
@@ -71,7 +71,7 @@ export default function Glitchingproducts() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ title, price, description, image_url }),
+      body: JSON.stringify({ title, price, cost, description, image_url }),
     });
 
     const responseData = await response.json();
@@ -134,6 +134,18 @@ export default function Glitchingproducts() {
               console.error("No valid price fiel found for product");
             }
 
+            let cost;
+
+            if(product.aliexpressPrice){
+              cost = product.aliexpressPrice.toString();
+
+            } else if(product.aliexpressPrice){
+
+              cost = " - "
+
+            }
+
+
             let imageUrl =
               product.landingImage ||
               `https://www.glitching.ai/v2-g-images/image${product.index}.jpg`;
@@ -146,6 +158,7 @@ export default function Glitchingproducts() {
                     index,
                     product.productName,
                     priceAsString,
+                    cost,
                     product.productDescription,
                     imageUrl
                   )

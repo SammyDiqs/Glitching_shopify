@@ -18,7 +18,7 @@ const CREATE_PRODUCT_MUTATION = `
   }
 `;
 
-export default async function importProduct(session, title, price, description, image_url) {
+export default async function importProduct(session, title, price, cost, description, image_url) {
   
   const client = new shopify.api.clients.Graphql({ session });
 
@@ -34,7 +34,10 @@ export default async function importProduct(session, title, price, description, 
           input: {
             title: title,
             bodyHtml: description,
-            variants: [{ price: price }],
+            variants: [{ price: price,
+            inventoryItem: {
+              cost: cost
+            } }],
             images: [{src:image_url}]
           },
         },

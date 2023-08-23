@@ -138,10 +138,10 @@ app.post("/api/products/import", async (req, res) => {
   let status = 200;
   let error = null;
 
-  const {title, price, description, image_url} = req.body;
+  const {title, price, description, image_url, cost} = req.body;
 
   try {
-    await importProduct(res.locals.shopify.session, title, price, description, image_url);
+    await importProduct(res.locals.shopify.session, title, price, cost, description, image_url);
   } catch (e) {
     console.log(`Failed to process products/import: ${e.message}`);
     status = 500;

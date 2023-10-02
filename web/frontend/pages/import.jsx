@@ -60,7 +60,7 @@ export default function Glitchingproducts() {
     }
   }
 
-  const handleImport = async (index, title, price, cost,  description, image_url) => {
+  const handleImport = async (index, title, price, cost, description, image_url) => {
     //console.log("Importing product with title:", title, "and price:", price);
     setLoadingStatus((prev) => ({ ...prev, [index]: true }));
 
@@ -94,11 +94,11 @@ export default function Glitchingproducts() {
   };
 
   return (
-    <div className="w-full min-h-screen  bg-slate-950 flex flex-col items-center gap-5 lg:gap-5 p-5 lg:p-8 lg:py-10 lg:pb-0 text-slate-400 overflow-auto overflow-x-hidden relative pb-16">
+    <div className="w-full min-h-screen  bg-slate-950 flex flex-col items-center gap-5 lg:gap-5 p-5 lg:px-8 lg:py-10 lg:pb-0 text-slate-400 overflow-auto overflow-x-hidden relative pb-16">
       {toastMarkup}
 
-      <div className="flex justify-center items-center space-x-8"> 
-      {/* fix this */}
+      <div className="flex justify-center items-center space-x-8">
+        {/* fix this */}
         <img
           src={logo62}
           width={400}
@@ -120,8 +120,8 @@ export default function Glitchingproducts() {
         </div> */}
       </div>
 
-      <div className="fade w-full flex flex-col items-start border-[1px] border-slate-800 rounded-[.6rem] px-5 py-5 z-20 bg-gradient-to-br from-[#131620] via-slate-950 to-slate-950 lg:px-8 lg:py-8 mb-8">
-        <div className="w-full flex flex-row flex-wrap  gap-8">
+      <div className="fade w-full flex flex-col items-start border-[1px] border-slate-800 rounded-[.6rem] px-5 py-5  z-20 bg-gradient-to-br from-[#131620] via-slate-950 to-slate-950 lg:px-5 lg:py-8 ">
+        <div className="w-full flex flex-row flex-wrap justify-between items-start gap-5">
           {savedProducts.map((product, index) => {
             //console.log("Product data:", product);
             let priceAsString;
@@ -136,10 +136,10 @@ export default function Glitchingproducts() {
 
             let cost;
 
-            if(product.aliexpressPrice){
+            if (product.aliexpressPrice) {
               cost = product.aliexpressPrice.toString();
 
-            } else if(product.aliexpressPrice){
+            } else if (product.aliexpressPrice) {
 
               cost = " - "
 
@@ -201,7 +201,23 @@ export default function Glitchingproducts() {
             );
           })}
         </div>
+
       </div>
+      <div className="pb-5 flex flex-row flex-nowrap text-center justify-center w-full">
+        <div className="mr-2">
+          Don't see any products or want more? Go to our website
+          <a
+            href="https://www.glitching.ai"
+            className="hover:text-blue-500"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {' '}https://www.glitching.ai
+          </a>
+        </div>
+      </div>
+
+
     </div>
   );
 }

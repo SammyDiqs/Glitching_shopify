@@ -143,7 +143,7 @@ export default function HomePage({ handleUserSignIn }) {
       </div>
 
       <div className="font-[800] text-3xl text-left mb-2">
-        Connect Your Shop
+      Sign In To Your Account
       </div>
       <button
         onClick={() => {

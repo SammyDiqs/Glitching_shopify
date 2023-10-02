@@ -105,7 +105,7 @@ export default function Glitchingproducts() {
           alt="Unleash Your Shopify Potential - Uncover Hidden Gems with Glitching Dropshipping Product Finder"
         />
 
-        <div className="relative">
+        {/* <div className="relative">
           
             <button
             onClick={()=>{
@@ -117,7 +117,7 @@ export default function Glitchingproducts() {
               Generate Products
             </button>
     
-        </div>
+        </div> */}
       </div>
 
       <div className="fade w-full flex flex-col items-start border-[1px] border-slate-800 rounded-[.6rem] px-5 py-5 z-20 bg-gradient-to-br from-[#131620] via-slate-950 to-slate-950 lg:px-8 lg:py-8 mb-8">

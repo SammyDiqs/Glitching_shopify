@@ -14,8 +14,9 @@
   "dependencies": {
     "@shopify/app": "3.47.5",
     "@shopify/cli": "3.47.5",
+    "chart.js": "^4.4.0",
     "postcss": "^8.4.27",
-    "react-icons": "^4.10.1",
+    "react-icons": "^4.11.0",
     "tailwindcss": "^3.3.3"
   },
   "author": "samuel",
